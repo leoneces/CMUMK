@@ -1,0 +1,326 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: leoneces@gmail.com
+    name: Leone Cesca
+  description: |
+    This is a library API. It allow clients to:
+    - **List Books**: Retrieve a list of all available books.
+    - **Add Book**: Add a new book to the library.
+    - **Borrow Book**: Borrow a book by specifying the book ID and borrower ID.
+    - **Create Author**: Add a new author.
+    - **Get Author**: Retrieve details of a specific author.
+    - **Borrower Endpoints**:
+    - **Create Borrower**: Register a new borrower.
+    - **Get Borrower**: Retrieve details of a specific borrower.
+    - **Borrowed Books**: Retrieve the list of books borrowed by a specific borrower.
+  title: Library Management System API
+  version: 1.0.0
+servers:
+- url: http://localhost
+tags:
+- description: Books that can be borrowed
+  name: Book Endpoints
+- description: Authors that write books
+  name: Author Endpoints
+- description: Borrowers that can borrow books from the library
+  name: Borrowers Endpoints
+paths:
+  /book:
+    description: Book Resource
+    get:
+      description: Retrieve a list of all available books.
+      operationId: getBooks
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/book'
+                type: array
+          description: Success Response
+      tags:
+      - Book Endpoints
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Book Endpoints
+    post:
+      description: Add a new book to the library.
+      operationId: addBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+          description: Record Successfully Added
+        "400":
+          description: Bad Request
+      tags:
+      - Book Endpoints
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Book Endpoints
+  /book/{book_id}/borrow/{borrower_id}:
+    description: Book Resource
+    post:
+      description: Borrow a book by specifying the book ID and borrower ID.
+      operationId: borrowBook
+      parameters:
+      - explode: false
+        in: path
+        name: book_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: borrower_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/borrowed_book'
+          description: Success Response
+        "400":
+          description: Bad Request
+      tags:
+      - Book Endpoints
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Book Endpoints
+  /author:
+    description: Author Resource
+    post:
+      description: Add a new author.
+      operationId: addAuthor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/author'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+          description: Record Successfully Added
+        "400":
+          description: Bad request
+      tags:
+      - Author Endpoints
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Author Endpoints
+  /author/{id}:
+    description: Author Resource
+    get:
+      description: Retrieve details of a specific author.
+      operationId: getAuthorById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+          description: Success Response
+        "404":
+          description: Author not found
+      tags:
+      - Author Endpoints
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Author Endpoints
+  /borrower:
+    description: Borrower Resource
+    post:
+      description: Register a new borrower.
+      operationId: addBorrower
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/borrower'
+      responses:
+        "201":
+          description: Record Successfully Added
+        "409":
+          description: Conflict (Book already borrowed)
+        "400":
+          description: Bad Request
+      tags:
+      - Borrower Endpoints
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Borrower Endpoints
+  /borrower/{id}:
+    description: Borrower Resource
+    get:
+      description: Retrieve details of a specific borrower.
+      operationId: getBorrowerById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/borrower'
+          description: Success Response
+        "404":
+          description: Borrower not found
+      tags:
+      - Borrower Endpoints
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Borrower Endpoints
+  /borrower/{id}/borrowed_books:
+    description: Borrower Resource
+    get:
+      description: Retrieve the list of books borrowed by a specific borrower.
+      operationId: getBorrowedBooksByBorrowerId
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/borrowed_book'
+          description: Success Response
+        "404":
+          description: Borrower not found
+      tags:
+      - Borrower Endpoints
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: Borrower Endpoints
+components:
+  schemas:
+    book:
+      example:
+        BookID: 018b2f19-e79e-7d6a-a56d-29feb6211b04
+        Year: 1922
+        Title: Ulysses
+        Author:
+          AuthorID: 257f4259-9e90-4f29-871d-eea3a4386da2
+          Title: James Augustine Aloysius Joyce
+          Country: Ireland
+      properties:
+        BookID:
+          description: ID of the Book
+          example: 018b2f19-e79e-7d6a-a56d-29feb6211b04
+          type: string
+        Title:
+          description: Title of the Book
+          example: Ulysses
+          type: string
+        Year:
+          description: Year of publication of the Book
+          example: 1922
+          type: integer
+        Author:
+          $ref: '#/components/schemas/author'
+      type: object
+    author:
+      example:
+        AuthorID: 257f4259-9e90-4f29-871d-eea3a4386da2
+        Title: James Augustine Aloysius Joyce
+        Country: Ireland
+      properties:
+        AuthorID:
+          description: ID of the Author
+          example: 257f4259-9e90-4f29-871d-eea3a4386da2
+          type: string
+        Title:
+          description: Full name of the Author
+          example: James Augustine Aloysius Joyce
+          type: string
+        Country:
+          description: Country where the Author was born
+          example: Ireland
+          type: string
+      type: object
+    borrower:
+      example:
+        BorrowerID: 7d978e18-9b82-4908-b7a9-5dd2dd7b349e
+        Phone: +353 1 677 0095
+        Name: Michael Daniel Higgins
+      properties:
+        BorrowerID:
+          description: ID of the Borrower
+          example: 7d978e18-9b82-4908-b7a9-5dd2dd7b349e
+          type: string
+        Name:
+          description: Full name of the Borrower
+          example: Michael Daniel Higgins
+          type: string
+        Phone:
+          description: Full phone number of the Borrower
+          example: +353 1 677 0095
+          type: string
+      type: object
+    borrowed_book:
+      example:
+        Book:
+          BookID: 018b2f19-e79e-7d6a-a56d-29feb6211b04
+          Year: 1922
+          Title: Ulysses
+          Author:
+            AuthorID: 257f4259-9e90-4f29-871d-eea3a4386da2
+            Title: James Augustine Aloysius Joyce
+            Country: Ireland
+        Borrower:
+          BorrowerID: 7d978e18-9b82-4908-b7a9-5dd2dd7b349e
+          Phone: +353 1 677 0095
+          Name: Michael Daniel Higgins
+      properties:
+        Book:
+          $ref: '#/components/schemas/book'
+        Borrower:
+          $ref: '#/components/schemas/borrower'
+      type: object
