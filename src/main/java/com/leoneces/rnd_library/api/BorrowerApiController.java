@@ -4,6 +4,7 @@ import com.leoneces.rnd_library.model.Book;
 import com.leoneces.rnd_library.model.Borrower;
 
 
+import com.leoneces.rnd_library.service.BorrowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +36,9 @@ public class BorrowerApiController implements BorrowerApi {
     private final NativeWebRequest request;
 
     @Autowired
+    private BorrowerService borrowerService;
+
+    @Autowired
     public BorrowerApiController(NativeWebRequest request) {
         this.request = request;
     }
@@ -43,5 +47,19 @@ public class BorrowerApiController implements BorrowerApi {
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
     }
+
+
+    @Override
+    public ResponseEntity<Borrower> addBorrower(@RequestBody Borrower borrower){
+        Optional<Borrower> addedBook = Optional.ofNullable(borrowerService.addBorrower(borrower));
+        return addedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public ResponseEntity<Borrower> getBorrowerById(@PathVariable String id){
+        Optional<Borrower> borrower = borrowerService.findById(id);
+        return borrower.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
 }

@@ -9,11 +9,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
 @SpringBootApplication(
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @ComponentScan(
-    basePackages = {"org.openapitools", "org.openapitools.api" , "org.openapitools.configuration"},
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+        basePackages = {"com.leoneces.rnd_library", "com.leoneces.rnd_library.api", "org.openapitools.configuration"},
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 public class RandomLibraryApplication {
 

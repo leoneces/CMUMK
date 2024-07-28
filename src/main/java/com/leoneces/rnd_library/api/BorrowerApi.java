@@ -67,7 +67,7 @@ public interface BorrowerApi {
         consumes = { "application/json" }
     )
     
-    default ResponseEntity<Void> addBorrower(
+    default ResponseEntity<Borrower> addBorrower(
         @Parameter(name = "Borrower", description = "") @Valid @RequestBody(required = false) Borrower borrower
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
