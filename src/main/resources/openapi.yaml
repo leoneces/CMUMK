@@ -230,7 +230,7 @@ components:
           type: string
           example: 257f4259-9e90-4f29-871d-eea3a4386da2
           description: ID of the Author
-        Title:
+        Name:
           type: string
           example: James Augustine Aloysius Joyce
           description: Full name of the Author

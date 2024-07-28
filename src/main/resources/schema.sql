@@ -7,7 +7,7 @@ SET SCHEMA rnd_library;
 -- Schema for Authors
 CREATE TABLE author (
     AuthorID VARCHAR(36) PRIMARY KEY,
-    Title VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
     Country VARCHAR(255) NOT NULL
 );
 

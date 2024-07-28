@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("book")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-29T00:25:52.581503+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
 @Entity
 public class Book {
 
@@ -38,11 +38,11 @@ public class Book {
   private Integer publicationYear;
 
   @ManyToOne
-  @JoinColumn(name = "authorID")
+  @JoinColumn(name = "AuthorID")
   private Author author;
 
   @ManyToOne
-  @JoinColumn(name = "borrowerID")
+  @JoinColumn(name = "BorrowerID")
   private Borrower borrowedBy;
 
   public Book bookID(String bookID) {

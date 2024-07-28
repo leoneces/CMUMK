@@ -1,6 +1,5 @@
 package com.leoneces.rnd_library.service;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.leoneces.rnd_library.model.Book;
 import com.leoneces.rnd_library.repository.BookRepository;

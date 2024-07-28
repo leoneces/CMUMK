@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-29T00:25:52.581503+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "Author Endpoints", description = "Authors that write books")
 public interface AuthorApi {
@@ -73,7 +73,7 @@ public interface AuthorApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }";
+                    String exampleString = "{ \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Country\" : \"Ireland\", \"Name\" : \"James Augustine Aloysius Joyce\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -115,7 +115,7 @@ public interface AuthorApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }";
+                    String exampleString = "{ \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Country\" : \"Ireland\", \"Name\" : \"James Augustine Aloysius Joyce\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

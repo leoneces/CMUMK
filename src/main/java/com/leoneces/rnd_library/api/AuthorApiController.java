@@ -3,6 +3,8 @@ package com.leoneces.rnd_library.api;
 import com.leoneces.rnd_library.model.Author;
 
 
+import com.leoneces.rnd_library.model.Borrower;
+import com.leoneces.rnd_library.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,9 @@ public class AuthorApiController implements AuthorApi {
     private final NativeWebRequest request;
 
     @Autowired
+    private AuthorService authorService;
+
+    @Autowired
     public AuthorApiController(NativeWebRequest request) {
         this.request = request;
     }
@@ -41,6 +46,18 @@ public class AuthorApiController implements AuthorApi {
     @Override
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
+    }
+
+    @Override
+    public ResponseEntity<Author> addAuthor(@RequestBody Author author){
+        Optional<Author> addedAuthor = Optional.ofNullable(authorService.addAuthor(author));
+        return addedAuthor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public ResponseEntity<Author> getAuthorById(@PathVariable String id){
+        Optional<Author> author = authorService.findById(id);
+        return author.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

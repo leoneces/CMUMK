@@ -5,8 +5,11 @@ INSERT INTO borrower (BorrowerID, Name, Phone)
                    ('8445057d-3741-4df6-8f26-a065065d2ab2', 'Albert Dolan', '+353 91 509000');
 
 -- Initial data for Authors
---INSERT INTO author (AuthorID, Title, Country)
---            VALUES ('257f4259-9e90-4f29-871d-eea3a4386da2', 'James Joyce', 'Ireland');
+INSERT INTO author (AuthorID, Name, Country)
+            VALUES ('257f4259-9e90-4f29-871d-eea3a4386da2', 'James Joyce', 'Ireland'),
+                   ('cac0166f-4433-4c65-bb17-7dca0bbb7e60', 'Bram Stoker', 'Ireland'),
+                   ('c3aacf06-f0a5-470c-9369-b53ce2616c98', 'Maeve Binchy', 'Ireland'),
+                   ('41c211f3-f1d8-4206-b209-ac956810587e', 'Vitalino Cesca', 'Brazil');                   ;
 
 -- Initial data for Books
 --INSERT INTO book (BookID, Title, Year, AuthorID)

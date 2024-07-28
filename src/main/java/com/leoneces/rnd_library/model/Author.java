@@ -22,14 +22,14 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("author")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-29T00:25:52.581503+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
 @Entity
 public class Author {
 
   @Id
   private String authorID;
 
-  private String title;
+  private String name;
 
   private String country;
 
@@ -53,24 +53,24 @@ public class Author {
     this.authorID = authorID;
   }
 
-  public Author title(String title) {
-    this.title = title;
+  public Author name(String name) {
+    this.name = name;
     return this;
   }
 
   /**
    * Full name of the Author
-   * @return title
+   * @return name
    */
   
-  @Schema(name = "Title", example = "James Augustine Aloysius Joyce", description = "Full name of the Author", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("Title")
-  public String getTitle() {
-    return title;
+  @Schema(name = "Name", example = "James Augustine Aloysius Joyce", description = "Full name of the Author", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("Name")
+  public String getName() {
+    return name;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Author country(String country) {
@@ -103,13 +103,13 @@ public class Author {
     }
     Author author = (Author) o;
     return Objects.equals(this.authorID, author.authorID) &&
-        Objects.equals(this.title, author.title) &&
+        Objects.equals(this.name, author.name) &&
         Objects.equals(this.country, author.country);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(authorID, title, country);
+    return Objects.hash(authorID, name, country);
   }
 
   @Override
@@ -117,7 +117,7 @@ public class Author {
     StringBuilder sb = new StringBuilder();
     sb.append("class Author {\n");
     sb.append("    authorID: ").append(toIndentedString(authorID)).append("\n");
-    sb.append("    title: ").append(toIndentedString(title)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-29T00:25:52.581503+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "Book Endpoints", description = "Books that can be borrowed")
 public interface BookApi {
@@ -73,7 +73,7 @@ public interface BookApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 }";
+                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Country\" : \"Ireland\", \"Name\" : \"James Augustine Aloysius Joyce\" }, \"PublicationYear\" : 1922 }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -117,7 +117,7 @@ public interface BookApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 }";
+                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Country\" : \"Ireland\", \"Name\" : \"James Augustine Aloysius Joyce\" }, \"PublicationYear\" : 1922 }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -156,7 +156,7 @@ public interface BookApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 }, { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 } ]";
+                    String exampleString = "[ { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Country\" : \"Ireland\", \"Name\" : \"James Augustine Aloysius Joyce\" }, \"PublicationYear\" : 1922 }, { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Country\" : \"Ireland\", \"Name\" : \"James Augustine Aloysius Joyce\" }, \"PublicationYear\" : 1922 } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
