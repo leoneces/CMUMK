@@ -1,11 +1,20 @@
 package com.leoneces.rnd_library.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
+import java.util.*;
 import javax.annotation.Generated;
 
 /**
@@ -13,9 +22,11 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("author")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-27T10:29:52.747471+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Entity
 public class Author {
 
+  @Id
   private String authorID;
 
   private String title;

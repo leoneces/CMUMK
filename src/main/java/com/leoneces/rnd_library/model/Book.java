@@ -1,14 +1,24 @@
 package com.leoneces.rnd_library.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import com.leoneces.rnd_library.model.Author;
+import com.leoneces.rnd_library.model.Borrower;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
-
+import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
+import java.util.*;
 import javax.annotation.Generated;
 
 /**
@@ -16,16 +26,24 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("book")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-27T10:29:52.747471+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Entity
 public class Book {
 
+  @Id
   private String bookID;
 
   private String title;
 
-  private Integer year;
+  private Integer publicationYear;
 
+  @ManyToOne
+  @JoinColumn(name = "authorID")
   private Author author;
+
+  @ManyToOne
+  @JoinColumn(name = "borrowerID")
+  private Borrower borrowedBy;
 
   public Book bookID(String bookID) {
     this.bookID = bookID;
@@ -67,24 +85,24 @@ public class Book {
     this.title = title;
   }
 
-  public Book year(Integer year) {
-    this.year = year;
+  public Book publicationYear(Integer publicationYear) {
+    this.publicationYear = publicationYear;
     return this;
   }
 
   /**
    * Year of publication of the Book
-   * @return year
+   * @return publicationYear
    */
   
-  @Schema(name = "Year", example = "1922", description = "Year of publication of the Book", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("Year")
-  public Integer getYear() {
-    return year;
+  @Schema(name = "PublicationYear", example = "1922", description = "Year of publication of the Book", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("PublicationYear")
+  public Integer getPublicationYear() {
+    return publicationYear;
   }
 
-  public void setYear(Integer year) {
-    this.year = year;
+  public void setPublicationYear(Integer publicationYear) {
+    this.publicationYear = publicationYear;
   }
 
   public Book author(Author author) {
@@ -107,6 +125,26 @@ public class Book {
     this.author = author;
   }
 
+  public Book borrowedBy(Borrower borrowedBy) {
+    this.borrowedBy = borrowedBy;
+    return this;
+  }
+
+  /**
+   * Get borrowedBy
+   * @return borrowedBy
+   */
+  @Valid 
+  @Schema(name = "BorrowedBy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("BorrowedBy")
+  public Borrower getBorrowedBy() {
+    return borrowedBy;
+  }
+
+  public void setBorrowedBy(Borrower borrowedBy) {
+    this.borrowedBy = borrowedBy;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -118,13 +156,14 @@ public class Book {
     Book book = (Book) o;
     return Objects.equals(this.bookID, book.bookID) &&
         Objects.equals(this.title, book.title) &&
-        Objects.equals(this.year, book.year) &&
-        Objects.equals(this.author, book.author);
+        Objects.equals(this.publicationYear, book.publicationYear) &&
+        Objects.equals(this.author, book.author) &&
+        Objects.equals(this.borrowedBy, book.borrowedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bookID, title, year, author);
+    return Objects.hash(bookID, title, publicationYear, author, borrowedBy);
   }
 
   @Override
@@ -133,8 +172,9 @@ public class Book {
     sb.append("class Book {\n");
     sb.append("    bookID: ").append(toIndentedString(bookID)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    year: ").append(toIndentedString(year)).append("\n");
+    sb.append("    publicationYear: ").append(toIndentedString(publicationYear)).append("\n");
     sb.append("    author: ").append(toIndentedString(author)).append("\n");
+    sb.append("    borrowedBy: ").append(toIndentedString(borrowedBy)).append("\n");
     sb.append("}");
     return sb.toString();
   }

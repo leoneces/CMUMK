@@ -6,13 +6,15 @@
 package com.leoneces.rnd_library.api;
 
 import com.leoneces.rnd_library.model.Book;
-import com.leoneces.rnd_library.model.BorrowedBook;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import org.springframework.http.HttpStatus;
@@ -21,13 +23,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-27T10:29:52.747471+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-07-28T20:35:55.083763+01:00[Europe/Dublin]", comments = "Generator version: 7.7.0")
 @Validated
 @Tag(name = "Book Endpoints", description = "Books that can be borrowed")
 public interface BookApi {
@@ -68,7 +73,7 @@ public interface BookApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"Year\" : 1922, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" } }";
+                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -94,7 +99,7 @@ public interface BookApi {
         tags = { "Book Endpoints" },
         responses = {
             @ApiResponse(responseCode = "201", description = "Success Response", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = BorrowedBook.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request")
         }
@@ -105,14 +110,14 @@ public interface BookApi {
         produces = { "application/json" }
     )
     
-    default ResponseEntity<BorrowedBook> borrowBook(
+    default ResponseEntity<Book> borrowBook(
         @Parameter(name = "book_id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("book_id") String bookId,
         @Parameter(name = "borrower_id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("borrower_id") String borrowerId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"Book\" : { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"Year\" : 1922, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" } }, \"Borrower\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" } }";
+                    String exampleString = "{ \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -151,7 +156,7 @@ public interface BookApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"Year\" : 1922, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" } }, { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"Year\" : 1922, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" } } ]";
+                    String exampleString = "[ { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 }, { \"BookID\" : \"018b2f19-e79e-7d6a-a56d-29feb6211b04\", \"BorrowedBy\" : { \"BorrowerID\" : \"7d978e18-9b82-4908-b7a9-5dd2dd7b349e\", \"Phone\" : \"+353 1 677 0095\", \"Name\" : \"Michael Daniel Higgins\" }, \"Title\" : \"Ulysses\", \"Author\" : { \"AuthorID\" : \"257f4259-9e90-4f29-871d-eea3a4386da2\", \"Title\" : \"James Augustine Aloysius Joyce\", \"Country\" : \"Ireland\" }, \"PublicationYear\" : 1922 } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
