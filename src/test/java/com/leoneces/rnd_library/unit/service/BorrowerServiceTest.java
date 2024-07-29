@@ -66,7 +66,8 @@ public class BorrowerServiceTest {
                 .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
                 .name("Michael D. Higgins")
                 .phone("+353 1 677 0095");
-        when(borrowerRepository.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")).thenReturn(Optional.ofNullable(borrower));
+        when(borrowerRepository.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenReturn(Optional.ofNullable(borrower));
 
         // Act
         Optional<Borrower> result = borrowerService.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");

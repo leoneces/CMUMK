@@ -13,7 +13,7 @@
   - H2 Configurations
 - Day 4:
   - Added Borrowing Books and List Borrowed Books workflows, integrated with H2
-  - Added Unit Tests for Models 
+  - Added Unit Tests for Models and Services
 
 ## Usage Instructions:
 
