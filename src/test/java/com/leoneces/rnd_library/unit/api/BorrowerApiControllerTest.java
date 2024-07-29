@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("unit")
 @SpringBootTest
-public class BorrowerApiTest {
+public class BorrowerApiControllerTest {
 
     @InjectMocks
     private BorrowerApiController borrowerApiController;

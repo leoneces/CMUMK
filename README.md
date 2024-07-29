@@ -61,3 +61,4 @@ JPA creating the tables correctly
 - Be sure to have the right validation on Controller and Service
 - Check for empty any()
 - Find a substitute for @SpringBootTest
+- Check exception handling around when and verify calls

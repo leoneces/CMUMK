@@ -49,7 +49,7 @@ public class BookApiController implements BookApi {
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         try {
             Optional<Book> addedBook = Optional.ofNullable(bookService.addBook(book));
-            return addedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+            return addedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }

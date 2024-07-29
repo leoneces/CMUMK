@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("unit")
 @SpringBootTest
-public class AuthorApiTest {
+public class AuthorApiControllerTest {
 
     @InjectMocks
     private AuthorApiController authorApiController;
