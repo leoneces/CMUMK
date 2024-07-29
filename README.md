@@ -59,3 +59,4 @@ JPA creating the tables correctly
 - Check all warnings on code
 - Clean unused classes
 - Be sure to have the right validation on Controller and Service
+- Check for empty any()

@@ -51,7 +51,7 @@ public class AuthorApiController implements AuthorApi {
     @Override
     public ResponseEntity<Author> addAuthor(@RequestBody Author author){
         Optional<Author> addedAuthor = Optional.ofNullable(authorService.addAuthor(author));
-        return addedAuthor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return addedAuthor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @Override

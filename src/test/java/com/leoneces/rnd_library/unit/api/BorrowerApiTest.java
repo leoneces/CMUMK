@@ -77,6 +77,7 @@ public class BorrowerApiTest {
         assertNotNull(response);
         assertNull(response.getBody());
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        verify(borrowerService, times(1)).addBorrower(any(Borrower.class));
     }
 
     @Test
