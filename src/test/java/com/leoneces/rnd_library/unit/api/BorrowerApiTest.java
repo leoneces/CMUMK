@@ -106,6 +106,7 @@ public class BorrowerApiTest {
 
     @Test
     public void test_getBorrowerById_not_found() {
+        // Arrange
         when(borrowerService.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
                 .thenReturn(Optional.ofNullable(null));
 
