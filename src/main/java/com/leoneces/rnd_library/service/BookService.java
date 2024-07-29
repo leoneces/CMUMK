@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 @Service
 
@@ -43,10 +42,6 @@ public class BookService {
 
         // Adds the book
         return bookRepository.save(book);
-    }
-
-    public Optional<Book> findById(String bookId) {
-        return bookRepository.findById(bookId);
     }
 
     public Book borrowBook(String bookId, String borrowerId) throws Exception {
