@@ -35,6 +35,7 @@ public class BorrowerTest {
 
     @Test
     public void test_equals_hash(){
+        // Arrange
         Borrower borrower1 = new Borrower()
                 .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
                 .name("Michael D. Higgins")
@@ -50,6 +51,7 @@ public class BorrowerTest {
                 .name("John O''Hara")
                 .phone("+353 94 906 4000");
 
+        // Assert
         assertEquals(borrower1, borrower2);
         assertNotEquals(borrower1, borrower3);
         assertEquals(borrower1.hashCode(), borrower2.hashCode());

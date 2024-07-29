@@ -74,6 +74,7 @@ public class BookTest {
 
     @Test
     public void test_equals_hash(){
+        // Arrange
         Author author1 = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
                 .name("James Joyce")
@@ -115,6 +116,7 @@ public class BookTest {
                 .author(author2)
                 .borrowedBy(borrower2);
 
+        // Assert
         assertEquals(book1, book2);
         assertNotEquals(book1, book3);
         assertEquals(book1.hashCode(), book2.hashCode());

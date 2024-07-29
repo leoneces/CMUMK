@@ -36,6 +36,7 @@ public class AuthorTest {
 
     @Test
     public void test_equal_hash(){
+        // Arrange
         Author author1 = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
                 .name("James Joyce")
@@ -51,6 +52,7 @@ public class AuthorTest {
                 .name("Bram Stoker")
                 .country("Ireland");
 
+        // Assert
         assertEquals(author1, author2);
         assertNotEquals(author1, author3);
         assertEquals(author1.hashCode(), author2.hashCode());
