@@ -61,5 +61,11 @@ public class BorrowerApiController implements BorrowerApi {
         return borrower.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Override
+    public ResponseEntity<List<Book>> getBorrowedBooksByBorrowerId(@PathVariable("id") String id){
+        List<Book> books = borrowerService.getBorrowedBooksByBorrowerId(id);
+        return ResponseEntity.ok(books);
+    }
+
 
 }
