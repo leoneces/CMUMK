@@ -12,10 +12,11 @@ INSERT INTO author (AuthorID, Name, Country)
                    ('41c211f3-f1d8-4206-b209-ac956810587e', 'Vitalino Cesca', 'Brazil');                   ;
 
 -- Initial data for Books
---INSERT INTO book (BookID, Title, Year, AuthorID)
---            VALUES ('018b2f19-e79e-7d6a-a56d-29feb6211b04', 'Ulysses', 1922, '257f4259-9e90-4f29-871d-eea3a4386da2');
+INSERT INTO book (BookID, Title, Publication_Year, AuthorID)
+            VALUES ('018b2f19-e79e-7d6a-a56d-29feb6211b04', 'Ulysses', 1922, '257f4259-9e90-4f29-871d-eea3a4386da2'),
+                   ('d9b2ce8f-12ad-49a1-b87b-7ac588fc0b22', 'Exiles', 1918, '257f4259-9e90-4f29-871d-eea3a4386da2'),
+                   ('56e6c51c-1065-4aff-88ee-4929c887e8e9', 'Dubliners', 1914, '257f4259-9e90-4f29-871d-eea3a4386da2'),
+                   ('025cb29e-bb0f-4011-a465-baa8d7b092cb', 'The Primrose Path', 1875, 'cac0166f-4433-4c65-bb17-7dca0bbb7e60'),
+                   ('81982a42-6cd4-41ef-b8ae-5b26bfad1023', 'Dracula', 1897, 'cac0166f-4433-4c65-bb17-7dca0bbb7e60'),
+                   ('915a0dfc-0cf8-4f68-b249-0ee586a67db5', 'Miss Betty', 1898, 'cac0166f-4433-4c65-bb17-7dca0bbb7e60');
 
-
--- Initial data for Borrowed Books
---INSERT INTO borrowed_book (BookID, BorrowerID)
---            VALUES ('018b2f19-e79e-7d6a-a56d-29feb6211b04', '7d978e18-9b82-4908-b7a9-5dd2dd7b349e');

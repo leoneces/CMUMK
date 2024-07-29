@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 
@@ -14,19 +15,12 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Optional<Book> getBookById(Long id) {
-        return bookRepository.findById(id);
-    }
-
-    public Book saveBook(Book person) {
-        return bookRepository.save(person);
-    }
-
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     public Book addBook(Book book) {
+        book.setBookID(UUID.randomUUID().toString());
         return bookRepository.save(book);
     }
 }

@@ -22,10 +22,10 @@ CREATE TABLE borrower (
 CREATE TABLE book (
     BookID VARCHAR(36) PRIMARY KEY,
     Title VARCHAR(255) NOT NULL,
-    PublicationYear INT NOT NULL,
+    Publication_Year INT NOT NULL,
     AuthorID VARCHAR(36),
-    BorrowedBy VARCHAR(36),
+    BorrowerID VARCHAR(36),
     FOREIGN KEY (AuthorID) REFERENCES author(AuthorID),
-    FOREIGN KEY (BorrowedBy) REFERENCES borrower(BorrowerID)
+    FOREIGN KEY (BorrowerID) REFERENCES borrower(BorrowerID)
 );
 
