@@ -2,10 +2,12 @@ package com.leoneces.rnd_library.unit.model;
 
 import com.leoneces.rnd_library.model.Author;
 import com.leoneces.rnd_library.model.Book;
+import com.leoneces.rnd_library.model.Borrower;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Tag("unit")
 public class BookTest {
@@ -50,5 +52,72 @@ public class BookTest {
         assertEquals(author1, book.getAuthor());
         book.setAuthor(author2);
         assertEquals(author2, book.getAuthor());
+    }
+
+    @Test
+    public void test_borrower(){
+        Borrower borrower1 = new Borrower()
+                .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
+                .name("Michael D. Higgins")
+                .phone("+353 1 677 0095");
+
+        Borrower borrower2 = new Borrower()
+                .borrowerID("fec174ff-ed17-4b26-b1e3-11c8d01fb5f4")
+                .name("John O''Hara")
+                .phone("+353 94 906 4000");
+
+        Book book = new Book().borrowedBy(borrower1);
+        assertEquals(borrower1, book.getBorrowedBy());
+        book.setBorrowedBy(borrower2);
+        assertEquals(borrower2, book.getBorrowedBy());
+    }
+
+    @Test
+    public void test_equals_hash(){
+        Author author1 = new Author()
+                .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
+                .name("James Joyce")
+                .country("Ireland");
+
+        Author author2 = new Author()
+                .authorID("cac0166f-4433-4c65-bb17-7dca0bbb7e60")
+                .name("Bram Stoker")
+                .country("Ireland");
+
+        Borrower borrower1 = new Borrower()
+                .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
+                .name("Michael D. Higgins")
+                .phone("+353 1 677 0095");
+
+        Borrower borrower2 = new Borrower()
+                .borrowerID("fec174ff-ed17-4b26-b1e3-11c8d01fb5f4")
+                .name("John O''Hara")
+                .phone("+353 94 906 4000");
+
+        Book book1 = new Book()
+                .bookID("018b2f19-e79e-7d6a-a56d-29feb6211b04")
+                .title("Ulysses")
+                .publicationYear(1922)
+                .author(author1)
+                .borrowedBy(borrower1);
+
+        Book book2 = new Book()
+                .bookID("018b2f19-e79e-7d6a-a56d-29feb6211b04")
+                .title("Ulysses")
+                .publicationYear(1922)
+                .author(author1)
+                .borrowedBy(borrower1);
+
+        Book book3 = new Book()
+                .bookID("25cb29e-bb0f-4011-a465-baa8d7b092cb")
+                .title("The Primrose Path")
+                .publicationYear(1875)
+                .author(author2)
+                .borrowedBy(borrower2);
+
+        assertEquals(book1, book2);
+        assertNotEquals(book1, book3);
+        assertEquals(book1.hashCode(), book2.hashCode());
+        assertNotEquals(book1.hashCode(), book3.hashCode());
     }
 }

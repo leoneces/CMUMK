@@ -53,6 +53,7 @@ public class BorrowerTest {
         assertEquals(borrower1, borrower2);
         assertNotEquals(borrower1, borrower3);
         assertEquals(borrower1.hashCode(), borrower2.hashCode());
+        assertNotEquals(borrower1.hashCode(), borrower3.hashCode());
     }
 
 }

@@ -53,5 +53,7 @@ public class AuthorTest {
 
         assertEquals(author1, author2);
         assertNotEquals(author1, author3);
+        assertEquals(author1.hashCode(), author2.hashCode());
+        assertNotEquals(author1.hashCode(), author3.hashCode());
     }
 }
