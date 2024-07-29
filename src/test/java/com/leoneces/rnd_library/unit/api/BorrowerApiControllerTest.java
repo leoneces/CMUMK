@@ -121,7 +121,7 @@ public class BorrowerApiControllerTest {
     }
 
     @Test
-    public void test_getBorrowedBooksByBorrowerId() {
+    public void test_getBorrowedBooksByBorrowerId() throws Exception {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")

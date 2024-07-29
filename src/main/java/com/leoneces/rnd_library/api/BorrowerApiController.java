@@ -63,8 +63,12 @@ public class BorrowerApiController implements BorrowerApi {
 
     @Override
     public ResponseEntity<List<Book>> getBorrowedBooksByBorrowerId(@PathVariable("id") String id){
-        List<Book> books = borrowerService.getBorrowedBooksByBorrowerId(id);
-        return ResponseEntity.ok(books);
+        try{
+            List<Book> books = borrowerService.getBorrowedBooksByBorrowerId(id);
+            return ResponseEntity.ok(books);
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

@@ -79,7 +79,7 @@ public class BorrowerServiceTest {
     }
 
     @Test
-    public void test_getBorrowedBooksByBorrowerId(){
+    public void test_getBorrowedBooksByBorrowerId() throws Exception {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -111,6 +111,8 @@ public class BorrowerServiceTest {
 
         when(bookRepository.findByBorrowedByBorrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
                 .thenReturn(bookList);
+        when(borrowerRepository.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenReturn(Optional.ofNullable(borrower));
 
         // Act
         List<Book> result = borrowerService.getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");

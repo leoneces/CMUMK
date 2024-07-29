@@ -1,3 +1,6 @@
+-- Drop schema if it exists and create a new schema
+-- DROP SCHEMA IF EXISTS rnd_library CASCADE;
+
 -- Create the rnd_library database
 CREATE SCHEMA rnd_library;
 

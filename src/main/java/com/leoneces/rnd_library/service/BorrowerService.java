@@ -4,6 +4,7 @@ import com.leoneces.rnd_library.model.Book;
 import com.leoneces.rnd_library.model.Borrower;
 import com.leoneces.rnd_library.repository.BookRepository;
 import com.leoneces.rnd_library.repository.BorrowerRepository;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,9 @@ public class BorrowerService {
         return borrowerRepository.findById(id);
     }
 
-    public List<Book> getBorrowedBooksByBorrowerId(String id) {
+    public List<Book> getBorrowedBooksByBorrowerId(String id) throws Exception {
+        Optional<Borrower> borrower = borrowerRepository.findById(id);
+        if (borrower.isEmpty()) { throw new Exception("Borrower not found"); }
         return bookRepository.findByBorrowedByBorrowerID(id);
     }
 }
