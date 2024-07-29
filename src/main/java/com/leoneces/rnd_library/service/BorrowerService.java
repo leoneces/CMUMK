@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-
 public class BorrowerService {
     @Autowired
     private BorrowerRepository borrowerRepository;
@@ -20,7 +19,7 @@ public class BorrowerService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Borrower addBorrower(Borrower borrower){
+    public Borrower addBorrower(Borrower borrower) {
         borrower.setBorrowerID(UUID.randomUUID().toString());
         return borrowerRepository.save(borrower);
     }

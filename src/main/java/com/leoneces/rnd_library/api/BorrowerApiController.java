@@ -52,7 +52,7 @@ public class BorrowerApiController implements BorrowerApi {
     @Override
     public ResponseEntity<Borrower> addBorrower(@RequestBody Borrower borrower){
         Optional<Borrower> addedBook = Optional.ofNullable(borrowerService.addBorrower(borrower));
-        return addedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return addedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @Override

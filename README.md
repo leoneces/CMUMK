@@ -58,3 +58,4 @@ JPA creating the tables correctly
 - Check how to get a proper message when returning Errors like 400
 - Check all warnings on code
 - Clean unused classes
+- Be sure to have the right validation on Controller and Service
