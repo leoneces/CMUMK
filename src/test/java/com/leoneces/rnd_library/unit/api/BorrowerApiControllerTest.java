@@ -65,7 +65,7 @@ public class BorrowerApiControllerTest {
     @Test
     public void test_addBorrower_empty_data(){
         // Arrange
-        when(borrowerService.addBorrower(any())).thenReturn(null);
+        when(borrowerService.addBorrower(any(Borrower.class))).thenReturn(null);
 
         // Act
         ResponseEntity<Borrower> response = borrowerApiController.addBorrower(new Borrower());

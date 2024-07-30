@@ -151,7 +151,7 @@ public class BookServiceTest {
         // Other Assertions
         assertNull(result);
         verify(bookRepository, times(0)).save(book);
-        verify(authorRepository, times(0)).findById(any());
+        verify(authorRepository, times(0)).findById(any(String.class));
     }
 
     @Test
@@ -221,7 +221,7 @@ public class BookServiceTest {
         assertNull(result);
         verify(bookRepository, times(1)).findById("018b2f19-e79e-7d6a-a56d-29feb6211b04");
         verify(borrowerRepository, times(1)).findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
-        verify(bookRepository, times(0)).save(any());
+        verify(bookRepository, times(0)).save(any(Book.class));
     }
 
     @Test
@@ -253,7 +253,7 @@ public class BookServiceTest {
         assertNull(result);
         verify(bookRepository, times(1)).findById("018b2f19-e79e-7d6a-a56d-29feb6211b04");
         verify(borrowerRepository, times(1)).findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
-        verify(bookRepository, times(0)).save(any());
+        verify(bookRepository, times(0)).save(any(Book.class));
     }
 
     @Test
@@ -292,6 +292,6 @@ public class BookServiceTest {
         assertNull(result);
         verify(bookRepository, times(1)).findById("018b2f19-e79e-7d6a-a56d-29feb6211b04");
         verify(borrowerRepository, times(1)).findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
-        verify(bookRepository, times(0)).save(any());
+        verify(bookRepository, times(0)).save(any(Book.class));
     }
 }
