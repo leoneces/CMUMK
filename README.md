@@ -22,18 +22,14 @@
 
 # Usage Instructions:
 
-To run the application:
-```shell
-mvn spring-boot:run
-```
-To run Unit Tests
-```shell
-mvn test 
-```
-To run Unit and Integration Tests
-```shell
-mvn install
-```
+From the project root:
+- To run the application locally: `mvn spring-boot:run`
+- To run Unit Tests `mvn test`
+- To run Unit and Integration Tests `mvn install`
+- If you want to run as a docker container:
+  - From the project root directory build with `docker build -t rnd_library-app .` 
+  - Start the container with `docker run -p 8080:8080 rnd_library-app`.
+
 
 # Implementation Details
 ## REST API
