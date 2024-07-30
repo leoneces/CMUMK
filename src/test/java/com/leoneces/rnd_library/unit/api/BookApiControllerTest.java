@@ -4,27 +4,24 @@ import com.leoneces.rnd_library.api.BookApiController;
 import com.leoneces.rnd_library.model.Author;
 import com.leoneces.rnd_library.model.Book;
 import com.leoneces.rnd_library.model.Borrower;
-import com.leoneces.rnd_library.repository.BookRepository;
 import com.leoneces.rnd_library.service.BookService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 @Tag("unit")
 @SpringBootTest
 public class BookApiControllerTest {
@@ -34,11 +31,6 @@ public class BookApiControllerTest {
 
     @Mock
     private BookService bookService;
-
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void test_getBooks(){
@@ -60,7 +52,7 @@ public class BookApiControllerTest {
                 .publicationYear(1918)
                 .author(author);
 
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book1);
         bookList.add(book2);
 
@@ -78,7 +70,7 @@ public class BookApiControllerTest {
     }
 
     @Test
-    public void test_addBook(){
+    public void test_addBook() throws Exception {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -96,9 +88,7 @@ public class BookApiControllerTest {
                 .publicationYear(1922)
                 .author(author);
 
-        try {
-            when(bookService.addBook(bookIn)).thenReturn(bookOut);
-        } catch (Exception e) { /* Do Nothing */ }
+        when(bookService.addBook(bookIn)).thenReturn(bookOut);
 
         // Act
         ResponseEntity<Book> response = bookApiController.addBook(bookIn);
@@ -108,21 +98,17 @@ public class BookApiControllerTest {
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(bookOut, response.getBody());
-        try {
-            verify(bookService, times(1)).addBook(bookIn);
-        } catch (Exception e) { /* Do Nothing */ }
+        verify(bookService, times(1)).addBook(bookIn);
     }
 
     @Test
-    public void test_addBook_no_author(){
+    public void test_addBook_no_author() throws Exception {
         // Arrange
         Book book = new Book()
                 .title("Ulysses")
                 .publicationYear(1922);
 
-        try {
-            when(bookService.addBook(book)).thenReturn(null);
-        } catch (Exception e) { /* Do Nothing */ }
+        when(bookService.addBook(book)).thenReturn(null);
 
         // Act
         ResponseEntity<Book> response = bookApiController.addBook(book);
@@ -131,13 +117,11 @@ public class BookApiControllerTest {
         assertNotNull(response);
         assertNull(response.getBody());
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        try {
-            verify(bookService, times(1)).addBook(any(Book.class));
-        } catch (Exception e) { /* Do Nothing */ }
+        verify(bookService, times(1)).addBook(any(Book.class));
     }
 
     @Test
-    public void test_borrowBook(){
+    public void test_borrowBook() throws Exception {
         // Arrange
         Borrower borrower = new Borrower()
                 .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
@@ -156,10 +140,8 @@ public class BookApiControllerTest {
                 .author(author)
                 .borrowedBy(borrower);
 
-        try {
-            when(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
-                    .thenReturn(book);
-        } catch (Exception e) { /* Do Nothing */ }
+        when(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenReturn(book);
 
         // Act
         ResponseEntity<Book> response = bookApiController.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
@@ -169,36 +151,15 @@ public class BookApiControllerTest {
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(book, response.getBody());
-        try {
-            verify(bookService, times(1))
-                    .borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
-        } catch (Exception e) { /* Do Nothing */ }
+        verify(bookService, times(1))
+                .borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
     }
 
     @Test
-    public void test_borrowBook_with_exception(){
+    public void test_borrowBook_with_exception() throws Exception {
         // Arrange
-        Borrower borrower = new Borrower()
-                .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
-                .name("Michael D. Higgins")
-                .phone("+353 1 677 0095");
-
-        Author author = new Author()
-                .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
-                .name("James Joyce")
-                .country("Ireland");
-
-        Book book = new Book()
-                .bookID("018b2f19-e79e-7d6a-a56d-29feb6211b04")
-                .title("Ulysses")
-                .publicationYear(1922)
-                .author(author)
-                .borrowedBy(borrower);
-
-        try {
-            when(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
-                    .thenThrow(new Exception("Book is already borrowed"));
-        } catch (Exception e) { /* Do Nothing */ }
+        when(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenThrow(new Exception("Book is already borrowed"));
 
         // Act
         ResponseEntity<Book> response = bookApiController.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
@@ -207,10 +168,8 @@ public class BookApiControllerTest {
         assertNotNull(response);
         assertNull(response.getBody());
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        try {
-            verify(bookService, times(1))
-                    .borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
-        } catch (Exception e) { /* Do Nothing */ }
+        verify(bookService, times(1))
+                .borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
     }
 
 

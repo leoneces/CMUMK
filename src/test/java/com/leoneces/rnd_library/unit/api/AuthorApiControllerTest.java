@@ -3,12 +3,12 @@ package com.leoneces.rnd_library.unit.api;
 import com.leoneces.rnd_library.api.AuthorApiController;
 import com.leoneces.rnd_library.model.Author;
 import com.leoneces.rnd_library.service.AuthorService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,7 @@ import static org.mockito.Mockito.*;
 
 @Tag("unit")
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class AuthorApiControllerTest {
 
     @InjectMocks
@@ -28,11 +29,6 @@ public class AuthorApiControllerTest {
 
     @Mock
     private AuthorService authorService;
-
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void test_addAuthor(){
@@ -105,7 +101,7 @@ public class AuthorApiControllerTest {
     public void test_getAuthorById_not_found(){
         // Arrange
         when(authorService.findById("257f4259-9e90-4f29-871d-eea3a4386da2"))
-                .thenReturn(Optional.ofNullable(null));
+                .thenReturn(Optional.empty());
 
         // Act
         ResponseEntity<Author> response = authorApiController.getAuthorById("257f4259-9e90-4f29-871d-eea3a4386da2");

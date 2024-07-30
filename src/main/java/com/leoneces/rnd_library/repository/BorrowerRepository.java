@@ -1,6 +1,5 @@
 package com.leoneces.rnd_library.repository;
 
-import com.leoneces.rnd_library.model.Book;
 import com.leoneces.rnd_library.model.Borrower;
 import org.springframework.data.jpa.repository.JpaRepository;
 

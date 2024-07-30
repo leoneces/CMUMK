@@ -7,12 +7,12 @@ import com.leoneces.rnd_library.repository.AuthorRepository;
 import com.leoneces.rnd_library.repository.BookRepository;
 import com.leoneces.rnd_library.repository.BorrowerRepository;
 import com.leoneces.rnd_library.service.BookService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 @Tag("unit")
 public class BookServiceTest {
 
@@ -38,13 +39,8 @@ public class BookServiceTest {
     @Mock
     private BookRepository bookRepository;
 
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    public void test_getAllBooks(){
+    public void test_getAllBooks() {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -63,7 +59,7 @@ public class BookServiceTest {
                 .publicationYear(1918)
                 .author(author);
 
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book1);
         bookList.add(book2);
 
@@ -78,7 +74,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_addBook(){
+    public void test_addBook() {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -97,12 +93,14 @@ public class BookServiceTest {
 
         // Act & Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertDoesNotThrow( () -> { resultHolder.set(bookService.addBook(book)); });
+        assertDoesNotThrow(() -> resultHolder.set(bookService.addBook(book)));
         Book result = resultHolder.get();
 
         // Other Assertions
         assertNotNull(result);
-        assertDoesNotThrow(() -> { UUID.fromString(result.getBookID()); });
+        assertDoesNotThrow(() -> {
+            UUID.fromString(result.getBookID());
+        });
         assertEquals("Ulysses", result.getTitle());
         assertEquals(1922, result.getPublicationYear());
         assertNull(result.getBorrowedBy());
@@ -111,7 +109,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_addBook_with_invalid_author(){
+    public void test_addBook_with_invalid_author() {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -125,12 +123,11 @@ public class BookServiceTest {
 
         when(authorRepository.findById("257f4259-9e90-4f29-871d-eea3a4386da2"))
                 .thenReturn(Optional.empty());
-        when(bookRepository.save(book)).
-                thenReturn(book);
+//        when(bookRepository.save(book)).thenReturn(book);
 
         // Act & Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertThrows( Exception.class, () -> { resultHolder.set(bookService.addBook(book)); });
+        assertThrows(Exception.class, () -> resultHolder.set(bookService.addBook(book)));
         Book result = resultHolder.get();
 
         // Other Assertions
@@ -140,17 +137,15 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_addBook_without_author(){
+    public void test_addBook_without_author() {
         // Arrange
         Book book = new Book()
                 .title("Ulysses")
                 .publicationYear(1922);
 
-        when(bookRepository.save(book)).thenReturn(book);
-
         // Act & Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertThrows( Exception.class, () -> { resultHolder.set(bookService.addBook(book)); });
+        assertThrows(Exception.class, () -> resultHolder.set(bookService.addBook(book)));
         Book result = resultHolder.get();
 
         // Other Assertions
@@ -160,7 +155,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_borrowBook(){
+    public void test_borrowBook() {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -182,12 +177,14 @@ public class BookServiceTest {
                 .thenReturn(Optional.ofNullable(book));
         when(borrowerRepository.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
                 .thenReturn(Optional.ofNullable(borrower));
+        assertNotNull(book);
         when(bookRepository.save(book))
                 .thenReturn(book);
 
         // Act and Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertDoesNotThrow( () -> { resultHolder.set(bookService.borrowBook(book.getBookID(), borrower.getBorrowerID())); });
+        assertNotNull(borrower);
+        assertDoesNotThrow(() -> resultHolder.set(bookService.borrowBook(book.getBookID(), borrower.getBorrowerID())));
         Book result = resultHolder.get();
 
         // Other Assertions
@@ -202,7 +199,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_borrowBook_invalid_book_id(){
+    public void test_borrowBook_invalid_book_id() {
         // Arrange
         Borrower borrower = new Borrower()
                 .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
@@ -216,7 +213,8 @@ public class BookServiceTest {
 
         // Act and Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertThrows(Exception.class, () -> { resultHolder.set(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", borrower.getBorrowerID())); });
+        assertNotNull(borrower);
+        assertThrows(Exception.class, () -> resultHolder.set(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", borrower.getBorrowerID())));
         Book result = resultHolder.get();
 
         // Other Assertions
@@ -227,7 +225,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_borrowBook_invalid_borrower_id(){
+    public void test_borrowBook_invalid_borrower_id() {
         // Arrange
         Author author = new Author()
                 .authorID("257f4259-9e90-4f29-871d-eea3a4386da2")
@@ -244,12 +242,11 @@ public class BookServiceTest {
                 .thenReturn(Optional.ofNullable(book));
         when(borrowerRepository.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
                 .thenReturn(Optional.empty());
-        when(bookRepository.save(book))
-                .thenReturn(book);
 
         // Act and Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertThrows(Exception.class, () -> { resultHolder.set(bookService.borrowBook(book.getBookID(), "7d978e18-9b82-4908-b7a9-5dd2dd7b349e")); });
+        assertNotNull(book);
+        assertThrows(Exception.class, () -> resultHolder.set(bookService.borrowBook(book.getBookID(), "7d978e18-9b82-4908-b7a9-5dd2dd7b349e")));
         Book result = resultHolder.get();
 
         // Other Assertions
@@ -260,7 +257,7 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_borrowBook_already_borrowed(){
+    public void test_borrowBook_already_borrowed() {
         // Arrange
         Borrower borrower = new Borrower()
                 .borrowerID("7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
@@ -283,12 +280,12 @@ public class BookServiceTest {
                 .thenReturn(Optional.ofNullable(book));
         when(borrowerRepository.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
                 .thenReturn(Optional.ofNullable(borrower));
-        when(bookRepository.save(book))
-                .thenReturn(book);
 
         // Act and Assert
         AtomicReference<Book> resultHolder = new AtomicReference<>();
-        assertThrows(Exception.class, () -> { resultHolder.set(bookService.borrowBook(book.getBookID(), borrower.getBorrowerID())); });
+        assertNotNull(borrower);
+        assertNotNull(book);
+        assertThrows(Exception.class, () -> resultHolder.set(bookService.borrowBook(book.getBookID(), borrower.getBorrowerID())));
         Book result = resultHolder.get();
 
         // Other Assertions

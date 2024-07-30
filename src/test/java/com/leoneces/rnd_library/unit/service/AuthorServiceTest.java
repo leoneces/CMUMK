@@ -3,12 +3,12 @@ package com.leoneces.rnd_library.unit.service;
 import com.leoneces.rnd_library.model.Author;
 import com.leoneces.rnd_library.repository.AuthorRepository;
 import com.leoneces.rnd_library.service.AuthorService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +16,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 @Tag("unit")
 public class AuthorServiceTest {
 
@@ -24,11 +25,6 @@ public class AuthorServiceTest {
 
     @Mock
     private AuthorRepository authorRepository;
-
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void test_findById(){

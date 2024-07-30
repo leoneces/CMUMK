@@ -15,7 +15,7 @@
   - Added Borrowing Books and List Borrowed Books workflows, integrated with H2
   - Added Unit Tests for Models, Services and Controllers
   - Added Integration Tests for all endpoints
-  - Added Integration End to End tests
+  - Added Integration End-to-End tests
 
 ## Usage Instructions:
 
@@ -25,11 +25,11 @@ mvn spring-boot:run
 ```
 To run Unit Tests
 ```shell
-mvn test -Punit-tests
+mvn test 
 ```
-To run Integration Tests
+To run Unit and Integration Tests
 ```shell
-mvn test -Pintegration-tests
+mvn install
 ```
 
 ## Implementation Details

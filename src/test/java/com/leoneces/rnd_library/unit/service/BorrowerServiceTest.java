@@ -7,12 +7,12 @@ import com.leoneces.rnd_library.model.Borrower;
 import com.leoneces.rnd_library.repository.BookRepository;
 import com.leoneces.rnd_library.repository.BorrowerRepository;
 import com.leoneces.rnd_library.service.BorrowerService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
+@ExtendWith(MockitoExtension.class)
 @Tag("unit")
 public class BorrowerServiceTest {
 
@@ -34,11 +34,6 @@ public class BorrowerServiceTest {
 
     @Mock
     private BookRepository bookRepository;
-
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void test_addBorrower(){
@@ -105,7 +100,7 @@ public class BorrowerServiceTest {
                 .author(author)
                 .borrowedBy(borrower);
 
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book1);
         bookList.add(book2);
 

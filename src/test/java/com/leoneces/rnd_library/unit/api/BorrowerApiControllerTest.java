@@ -5,12 +5,12 @@ import com.leoneces.rnd_library.model.Author;
 import com.leoneces.rnd_library.model.Book;
 import com.leoneces.rnd_library.model.Borrower;
 import com.leoneces.rnd_library.service.BorrowerService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 @Tag("unit")
 @SpringBootTest
 public class BorrowerApiControllerTest {
@@ -32,11 +33,6 @@ public class BorrowerApiControllerTest {
 
     @Mock
     private BorrowerService borrowerService;
-
-    @BeforeEach
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void test_addBorrower(){
@@ -108,7 +104,7 @@ public class BorrowerApiControllerTest {
     public void test_getBorrowerById_not_found() {
         // Arrange
         when(borrowerService.findById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
-                .thenReturn(Optional.ofNullable(null));
+                .thenReturn(Optional.empty());
 
         // Act
         ResponseEntity<Borrower> response = borrowerApiController.getBorrowerById("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
@@ -147,7 +143,7 @@ public class BorrowerApiControllerTest {
                 .author(author)
                 .borrowedBy(borrower);
 
-        List<Book> bookList = new ArrayList<Book>();
+        List<Book> bookList = new ArrayList<>();
         bookList.add(book1);
         bookList.add(book2);
 
