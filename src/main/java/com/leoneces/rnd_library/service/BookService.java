@@ -10,6 +10,7 @@ import com.leoneces.rnd_library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,13 +30,13 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book addBook(Book book) throws Exception {
+    public Book addBook(Book book) throws NoSuchElementException {
         // Sets book ID
         book.setBookID(UUID.randomUUID().toString());
 
         // Checks if author exists
         Optional<Author> author = authorRepository.findById(book.getAuthor().getAuthorID());
-        if (author.isEmpty()){ throw new Exception("Author not found"); }
+        if (author.isEmpty()){ throw new NoSuchElementException("Author not found"); }
 
         // Guarantee the book starts without a borrower
         book.setBorrowedBy(null);
@@ -44,14 +45,14 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Book borrowBook(String bookId, String borrowerId) throws Exception {
+    public Book borrowBook(String bookId, String borrowerId) throws IllegalArgumentException, NoSuchElementException {
         Optional<Book> book = bookRepository.findById(bookId);
         Optional<Borrower> borrower = borrowerRepository.findById(borrowerId);
 
         // Checks if Book and Borrower exist, and if Book is already borrowed
-        if (book.isEmpty()) { throw new Exception("Book not found"); }
-        if (borrower.isEmpty()){ throw new Exception("Borrower not found"); }
-        if (book.get().getBorrowedBy()!=null){ throw new Exception("Book is already borrowed"); }
+        if (book.isEmpty()) { throw new IllegalArgumentException("Book not found"); }
+        if (borrower.isEmpty()){ throw new IllegalArgumentException("Borrower not found"); }
+        if (book.get().getBorrowedBy()!=null){ throw new NoSuchElementException("Book is already borrowed"); }
 
         book.get().setBorrowedBy(borrower.get());
 

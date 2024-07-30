@@ -15,12 +15,12 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public Optional<Author> findById(String id){
-        return authorRepository.findById(id);
-    }
-
     public Author addAuthor(Author author) {
         author.setAuthorID(UUID.randomUUID().toString());
         return authorRepository.save(author);
+    }
+
+    public Optional<Author> findById(String id){
+        return authorRepository.findById(id);
     }
 }

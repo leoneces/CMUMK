@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -162,4 +163,37 @@ public class BorrowerApiControllerTest {
                 .getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
     }
 
+    @Test
+    public void test_getBorrowedBooksByBorrowerId_not_found() throws Exception {
+
+        when(borrowerService.getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenThrow(new NoSuchElementException("Borrower not found"));
+
+        // Act
+        ResponseEntity<List<Book>> response = borrowerApiController.getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
+
+        // Assert
+        assertNotNull(response);
+        assertNull(response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(borrowerService, times(1))
+                .getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
+    }
+
+    @Test
+    public void test_getBorrowedBooksByBorrowerId_bad_request() throws Exception {
+
+        when(borrowerService.getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenThrow(new IllegalArgumentException("Borrower ID can't be blank"));
+
+        // Act
+        ResponseEntity<List<Book>> response = borrowerApiController.getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
+
+        // Assert
+        assertNotNull(response);
+        assertNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        verify(borrowerService, times(1))
+                .getBorrowedBooksByBorrowerId("7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
+    }
 }

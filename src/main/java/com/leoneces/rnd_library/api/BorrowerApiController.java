@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.annotation.Generated;
 
@@ -46,6 +47,7 @@ public class BorrowerApiController implements BorrowerApi {
 
     @Override
     public ResponseEntity<Borrower> getBorrowerById(@PathVariable String id){
+        if (id.isBlank()) { return ResponseEntity.badRequest().build(); };
         Optional<Borrower> borrower = borrowerService.findById(id);
         return borrower.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -55,8 +57,10 @@ public class BorrowerApiController implements BorrowerApi {
         try{
             List<Book> books = borrowerService.getBorrowedBooksByBorrowerId(id);
             return ResponseEntity.ok(books);
-        } catch (Exception e){
+        } catch (NoSuchElementException e){
             return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 

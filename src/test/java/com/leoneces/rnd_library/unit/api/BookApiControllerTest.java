@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -156,10 +157,27 @@ public class BookApiControllerTest {
     }
 
     @Test
-    public void test_borrowBook_with_exception() throws Exception {
+    public void test_borrowBook_not_found() {
         // Arrange
         when(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
-                .thenThrow(new Exception("Book is already borrowed"));
+                .thenThrow(new NoSuchElementException("Book is already borrowed"));
+
+        // Act
+        ResponseEntity<Book> response = bookApiController.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
+
+        // Assert
+        assertNotNull(response);
+        assertNull(response.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(bookService, times(1))
+                .borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");
+    }
+
+    @Test
+    public void test_borrowBook_bad_request() {
+        // Arrange
+        when(bookService.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e"))
+                .thenThrow(new IllegalArgumentException("Book is already borrowed"));
 
         // Act
         ResponseEntity<Book> response = bookApiController.borrowBook("018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e");

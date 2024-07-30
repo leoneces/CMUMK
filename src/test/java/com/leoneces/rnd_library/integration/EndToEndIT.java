@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -72,71 +69,6 @@ public class EndToEndIT {
         Assertions.assertEquals(book.getPublicationYear(), borrowedBook.getPublicationYear());
         Assertions.assertEquals(book.getAuthor(), borrowedBook.getAuthor());
         Assertions.assertEquals(borrower, borrowedBook.getBorrowedBy());
-    }
-
-    private List<Book> getBorrowedBooksByBorrower(String borrowerID) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/borrower/{id}/borrowed_books", borrowerID)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String responseContent = result.getResponse().getContentAsString();
-
-        return objectMapper.readValue(responseContent, new TypeReference<List<Book>>(){});
-    }
-
-    private void borrowBook(Book book, Borrower borrower) throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book/{id}/borrow/{borrower_id}",
-                        book.getBookID(), borrower.getBorrowerID())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String responseContent = result.getResponse().getContentAsString();
-        Book borrowedBook = objectMapper.readValue(responseContent, Book.class);
-        Assertions.assertEquals(book.getBookID(), borrowedBook.getBookID());
-        Assertions.assertEquals(book.getTitle(), borrowedBook.getTitle());
-        Assertions.assertEquals(book.getPublicationYear(), borrowedBook.getPublicationYear());
-        Assertions.assertEquals(book.getAuthor(), borrowedBook.getAuthor());
-        Assertions.assertEquals(borrower, borrowedBook.getBorrowedBy());
-    }
-
-    private List<Book> listBooks() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/book")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String responseContent = result.getResponse().getContentAsString();
-
-        return objectMapper.readValue(responseContent, new TypeReference<List<Book>>(){});
-    }
-
-    private Book addBook(Author author) throws Exception {
-        String bookJson = "{\"Title\": \"Confessions of an Irish Rebel\", \"PublicationYear\": 1965, " +
-                " \"Author\": {\"AuthorID\": \"" + author.getAuthorID() + "\"}," +
-                " \"BorrowedBy\": null}";
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(bookJson))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String responseContent = result.getResponse().getContentAsString();
-        Book book = objectMapper.readValue(responseContent, Book.class);
-
-        // Asserts
-        // Book
-        Assertions.assertDoesNotThrow( () -> { UUID.fromString(book.getBookID()); });
-        Assertions.assertEquals("Confessions of an Irish Rebel", book.getTitle());
-        Assertions.assertEquals(1965, book.getPublicationYear());
-        // Author
-        Assertions.assertEquals(author, book.getAuthor());
-        // Borrower
-        Assertions.assertNull(book.getBorrowedBy());
-
-        return book;
     }
 
     private Borrower createBorrower() throws Exception {
@@ -200,22 +132,69 @@ public class EndToEndIT {
         Author getAuthor = objectMapper.readValue(responseContent, Author.class);
         Assertions.assertEquals(author, getAuthor);
     }
-    /*
-    - **Create Borrower**: Register a new borrower.
-    - **Get Borrower**: Retrieve details of a specific borrower.
 
-    - **Create Author**: Add a new author.
-    - **Get Author**: Retrieve details of a specific author.
+    private Book addBook(Author author) throws Exception {
+        String bookJson = "{\"Title\": \"Confessions of an Irish Rebel\", \"PublicationYear\": 1965, " +
+                " \"Author\": {\"AuthorID\": \"" + author.getAuthorID() + "\"}," +
+                " \"BorrowedBy\": null}";
 
-    - **Add Book**: Add a new book to the library.
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
 
-    - **List Books**: Retrieve a list of all available books.
-    - **Borrow Book**: Borrow a book by specifying the book ID and borrower ID.
+        String responseContent = result.getResponse().getContentAsString();
+        Book book = objectMapper.readValue(responseContent, Book.class);
 
-    - **Borrowed Books**: Retrieve the list of books borrowed by a specific borrower.
+        // Asserts
+        // Book
+        Assertions.assertDoesNotThrow( () -> { UUID.fromString(book.getBookID()); });
+        Assertions.assertEquals("Confessions of an Irish Rebel", book.getTitle());
+        Assertions.assertEquals(1965, book.getPublicationYear());
+        // Author
+        Assertions.assertEquals(author, book.getAuthor());
+        // Borrower
+        Assertions.assertNull(book.getBorrowedBy());
 
+        return book;
     }
 
+    private List<Book> listBooks() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/book")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
 
-     */
+        String responseContent = result.getResponse().getContentAsString();
+
+        return objectMapper.readValue(responseContent, new TypeReference<List<Book>>(){});
+    }
+
+    private void borrowBook(Book book, Borrower borrower) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book/{id}/borrow/{borrower_id}",
+                                book.getBookID(), borrower.getBorrowerID())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+        Book borrowedBook = objectMapper.readValue(responseContent, Book.class);
+        Assertions.assertEquals(book.getBookID(), borrowedBook.getBookID());
+        Assertions.assertEquals(book.getTitle(), borrowedBook.getTitle());
+        Assertions.assertEquals(book.getPublicationYear(), borrowedBook.getPublicationYear());
+        Assertions.assertEquals(book.getAuthor(), borrowedBook.getAuthor());
+        Assertions.assertEquals(borrower, borrowedBook.getBorrowedBy());
+    }
+
+    private List<Book> getBorrowedBooksByBorrower(String borrowerID) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/borrower/{id}/borrowed_books", borrowerID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        return objectMapper.readValue(responseContent, new TypeReference<List<Book>>(){});
+    }
 }

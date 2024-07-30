@@ -17,11 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -47,7 +42,9 @@ public class AuthorApiIT {
         String responseContent = result.getResponse().getContentAsString();
         Author author = objectMapper.readValue(responseContent, Author.class);
 
-        Assertions.assertDoesNotThrow( () -> { UUID.fromString(author.getAuthorID()); });
+        Assertions.assertDoesNotThrow(() -> {
+            UUID.fromString(author.getAuthorID());
+        });
         Assertions.assertEquals("James Augustine Aloysius Joyce", author.getName());
         Assertions.assertEquals("Ireland", author.getCountry());
     }
@@ -56,11 +53,10 @@ public class AuthorApiIT {
     public void test_addAuthor_bad_request() throws Exception {
         String authorJson = "{ this is a bad request }";
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/author")
+        mockMvc.perform(MockMvcRequestBuilders.post("/author")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authorJson))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andReturn();
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
@@ -80,9 +76,15 @@ public class AuthorApiIT {
 
     @Test
     public void test_getAuthorById_not_found() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/author/{id}", "cacbd521-4f95-4835-ac62-b23aaec87201")
+        mockMvc.perform(MockMvcRequestBuilders.get("/author/{id}", "cacbd521-4f95-4835-ac62-b23aaec87201")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andReturn();
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void test_getAuthorById_bad_request() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/author/{id}", " ")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }

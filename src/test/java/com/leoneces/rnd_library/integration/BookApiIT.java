@@ -107,6 +107,19 @@ public class BookApiIT {
     }
 
     @Test
+    public void test_addBook_not_found() throws Exception {
+        String bookJson = "{\"Title\": \"Finnegans Wake\", \"PublicationYear\": 1939, " +
+                " \"Author\": {\"AuthorID\": \"49998008-931f-4113-a410-f103e0a147a6\"}," +
+                " \"BorrowedBy\": null}";
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn();
+    }
+
+    @Test
     public void test_borrowBook() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book/{id}/borrow/{borrower_id}", "018b2f19-e79e-7d6a-a56d-29feb6211b04", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -132,9 +145,19 @@ public class BookApiIT {
     }
 
     @Test
-    public void test_borrowBook_bad_request() throws Exception {
+    public void test_borrowBook_not_found() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book/{id}/borrow/{borrower_id}",
                         "025cb29e-bb0f-4011-a465-baa8d7b092cb", "fec174ff-ed17-4b26-b1e3-11c8d01fb5f4")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn();
+
+    }
+
+    @Test
+    public void test_borrowBook_bad_request() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/book/{id}/borrow/{borrower_id}",
+                                " ", " ")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn();

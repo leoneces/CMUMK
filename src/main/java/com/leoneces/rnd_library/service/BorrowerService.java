@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,9 +30,12 @@ public class BorrowerService {
         return borrowerRepository.findById(id);
     }
 
-    public List<Book> getBorrowedBooksByBorrowerId(String id) throws Exception {
+    public List<Book> getBorrowedBooksByBorrowerId(String id) throws NoSuchElementException, IllegalArgumentException {
+        if (id.isBlank()) { throw new IllegalArgumentException("Borrower ID can't be blank"); }
+
         Optional<Borrower> borrower = borrowerRepository.findById(id);
-        if (borrower.isEmpty()) { throw new Exception("Borrower not found"); }
+
+        if (borrower.isEmpty()) { throw new NoSuchElementException("Borrower not found"); }
         return bookRepository.findByBorrowedByBorrowerID(id);
     }
 }

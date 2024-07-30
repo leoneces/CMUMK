@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import javax.annotation.Generated;
 
@@ -49,8 +50,8 @@ public class BookApiController implements BookApi {
         try {
             Optional<Book> addedBook = Optional.ofNullable(bookService.addBook(book));
             return addedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -58,11 +59,12 @@ public class BookApiController implements BookApi {
     public ResponseEntity<Book> borrowBook (
             @PathVariable("book_id") String bookId,
             @PathVariable("borrower_id") String borrowerId) {
-
         try {
             return ResponseEntity.ok(bookService.borrowBook(bookId, borrowerId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
         }
 
     }

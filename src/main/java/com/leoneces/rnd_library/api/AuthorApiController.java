@@ -41,6 +41,9 @@ public class AuthorApiController implements AuthorApi {
 
     @Override
     public ResponseEntity<Author> getAuthorById(@PathVariable String id){
+        if (id.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
         Optional<Author> author = authorService.findById(id);
         return author.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

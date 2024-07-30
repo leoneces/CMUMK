@@ -113,4 +113,15 @@ public class AuthorApiControllerTest {
         verify(authorService, times(1)).findById("257f4259-9e90-4f29-871d-eea3a4386da2");
     }
 
+    @Test
+    public void test_getAuthorById_bad_request(){
+        // Act
+        ResponseEntity<Author> response = authorApiController.getAuthorById("");
+
+        // Assert
+        assertNotNull(response);
+        assertNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        verify(authorService, times(0)).findById("257f4259-9e90-4f29-871d-eea3a4386da2");
+    }
 }

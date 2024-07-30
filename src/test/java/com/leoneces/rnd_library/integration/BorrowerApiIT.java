@@ -15,16 +15,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.leoneces.rnd_library.model.Book;
 import java.util.List;
 import java.util.UUID;
 import com.fasterxml.jackson.core.type.TypeReference;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -91,6 +85,14 @@ public class BorrowerApiIT {
     }
 
     @Test
+    public void getBorrower_bad_request() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/borrower/{id}", " ")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
     public void getBorrowedBooks() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/borrower/{id}/borrowed_books", "7d978e18-9b82-4908-b7a9-5dd2dd7b349e")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -121,6 +123,14 @@ public class BorrowerApiIT {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/borrower/{id}/borrowed_books", "7ecfa7d7-8f1a-4497-b15a-4fb119519255")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn();
+    }
+
+    @Test
+    public void getBorrowedBooks_bad_request() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/borrower/{id}/borrowed_books", " ")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn();
     }
 }
